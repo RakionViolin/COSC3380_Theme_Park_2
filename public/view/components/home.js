@@ -8,7 +8,7 @@ export default {
                 <p class="par"> The experience of a lifetime is closer than you think! Thrills n' Chills theme park will immerse you<br>  
                 with fun times, exciting activites, and unforgettable memories.<br> Are you ready to expeirence some Thrills n' Chills?</p>
 
-               <button class="cn"><a href="about-us.html">LEARN MORE</a></button>
+              <button class="cn"><a href="about-us.html">LEARN MORE</a></button>
             </div>
         </div>
         
@@ -18,7 +18,6 @@ export default {
                 
                 <div class="form-group">
                     <label>Email Address</label>
-             
                     <input type="email" class="form-control" name="email" v-model="email" placeholder="Enter Email Here">
                 </div>
                 
