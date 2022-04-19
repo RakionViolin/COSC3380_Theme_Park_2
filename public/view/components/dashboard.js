@@ -20,7 +20,7 @@ export default {
                             <tbody>
                                 <tr v-for="ticket in tickets" :key="ticket.Ticket_ID">
                                     <td>{{ticket.tickets.Name}}</td>
-                                    <td>{{new Date(ticket.admission_date)}}</td>
+                                    <td>{{(new Date(ticket.admission_date)).toDateString()}}</td>
                                     <td>&#36; {{ticket.Price}}</td>
                                 </tr>
                             </tbody>

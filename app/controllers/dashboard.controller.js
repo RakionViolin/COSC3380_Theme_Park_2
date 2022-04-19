@@ -4,7 +4,7 @@ const Rides         = db.rides;
 const RideCoaster   = db.rides_coaster;
 const Maintenance   = db.maintenance;
 const User          = db.users;
-//const { Op }        = db.Sequelize;
+const Sequelize     = db.Sequelize;
 const { Op } = require('sequelize');
 module.exports = {
     myPurchase: (req, res) => {
@@ -29,9 +29,12 @@ module.exports = {
         });
     },
     createTicket: (req, res) => {
+        let no_of_tickets = req.body.no_of_passenger;
+
         let data = {
             Rides_coaster_ID: req.body.rides_coaster,
             customer_ID: req.user.user_id,
+            Number_of_Passenger: no_of_tickets,
             Price: req.body.price,
             admission_date: req.body.admission_date,
             ridesCoasterRideCoasterID: req.body.rides_coaster,
@@ -41,9 +44,25 @@ module.exports = {
         Ticket.create(data).then(_data => {
 
             if(_data){
+                if(no_of_tickets > 4){
+                    no_of_tickets = no_of_tickets +1;
+
+                    let data = {
+                        Rides_coaster_ID: req.body.rides_coaster,
+                        customer_ID: req.user.user_id,
+                        Number_of_Passenger: 1,
+                        Price: 0,
+                        admission_date: req.body.admission_date,
+                        ridesCoasterRideCoasterID: req.body.rides_coaster,
+                        userUserId : req.user.user_id
+                    };
+
+                    Ticket.create(data);
+                }
+
                 let rides = {
                     Date_: req.body.admission_date,
-                    Number_of_Passenger: req.body.no_of_passenger,
+                    Number_of_Passenger: no_of_tickets,
                     Ride_coaster_ID:req.body.rides_coaster,
                     ridesCoasterRideCoasterID : req.body.rides_coaster,
                 }
@@ -240,7 +259,7 @@ module.exports = {
                             });
 
                             if(ticket > 0){
-                                evg_price = price/ticket;
+                                evg_price = (price/ticket).toFixed(2);
                             }
 
                             return res.status(200).send({
@@ -338,7 +357,7 @@ module.exports = {
                                 });
 
                                 if(ticket > 0){
-                                    evg_price = price/ticket;
+                                    evg_price = (price/ticket).toFixed(2);
                                 }
 
                                 return res.status(200).send({
@@ -385,5 +404,62 @@ module.exports = {
                 })
             });
         }
-	}
+	},
+
+    searchMaintenance: (req, res) => {
+        const startedDate = req.body.date_from;
+        const endDate = req.body.date_to;
+
+        const from = new Date(startedDate);
+        const to = new Date(endDate);
+
+        Maintenance.findAll({
+            where: {
+                "Date_Started": {[Op.between]: [from, to]}
+            },
+            include: [{
+                model: RideCoaster, as: 'coaster',
+            },{
+                model: User, as: 'worker',
+            }]
+        }).then(async (data) => {
+            return res.status(200).send({
+                status: 200,
+                maintenances: data
+            });
+        }).catch(err => {
+            res.status(200).send({
+                status: 500,
+                message: "Some error occurred while creating the user." + err.message
+            })
+        });
+    },
+
+    searchSales: (req, res) => {
+        const startedDate = req.body.date_from;
+        const endDate = req.body.date_to;
+
+        const from = new Date(startedDate);
+        const to = new Date(endDate);
+
+        Ticket.findAll({
+            where: {
+                "admission_date" : {[Op.between] : [from , to ]}
+            },
+            attributes: [
+                [Sequelize.fn('sum', Sequelize.col('Price')), 'sold_amount'],
+                [Sequelize.fn('sum', Sequelize.col('Number_of_Passenger')), 'sold_tickets'],
+            ]
+        }).then(async (data) => {
+            return res.status(200).send({
+                status: 200,
+                sales: data
+            });
+        }).catch(err => {
+            res.status(200).send({
+                status: 500,
+                message: "Some error occurred while creating the user." + err.message
+            })
+        });
+    },
 }

@@ -9,17 +9,25 @@ export default {
                     <div class="col-md-8 p-4">
                         <div class="card mb-4">
                             <form class="card-body row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
+                                    <label for="area">Report Type</label>
+                                    <select class="form-control" id="area" v-model="report_type">
+                                        <option value="Purchase">Purchase History</option> 
+                                        <option value="Maintenance">Maintenance History</option> 
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group col-md-4">
                                     <label>Date From</label>
                                     <input type="date" class="form-control" v-model="formData.date_from">
                                 </div>
                                 
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label>Date to</label>
                                     <input type="date" class="form-control" v-model="formData.date_to">
                                 </div>
                                 
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-4" v-if="report_type === 'Purchase'">
                                     <label for="customer">Customer</label>
                                     <select class="form-control" id="customer" v-model="formData.customer">
                                         <option v-for="customer in customers" :key="customer.user_id" :value="customer.user_id">{{customer.full_name}}</option> 
@@ -46,8 +54,8 @@ export default {
                             </form>
                         </div>
 
-                        <h3>Ticket Purchase History</h3>
-                        <table class="table table-bordered table-hover">
+                        <h3>{{reportTitle}}</h3>
+                        <table class="table table-bordered table-hover" v-if="tickets.length">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
@@ -72,19 +80,50 @@ export default {
                                 </tr>
                             </tbody>
                         </table>
+                        <table class="table table-bordered table-hover" v-else>
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Rides Name</th>
+                                    <th>Employee Name</th>
+                                    <th>Employee Contact</th>
+                                    <th>Start Date</th>
+                                    <th>Complete Date</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                 <tr v-for="(maintenance, index) in maintenances" :key="maintenance.Ticket_ID">
+                                    <td>{{index+1}}</td>
+                                    <td>{{maintenance.coaster.Name}}</td>
+                                    <td>{{maintenance.worker.full_name}}</td>
+                                    <td>{{maintenance.worker.contact}}</td>
+                                    <td>{{(new Date(maintenance.Date_Started)).toDateString()}}</td>
+                                    <td>{{(new Date(maintenance.Date_Completed)).toDateString()}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     
                     <div class="col-md-4 p-4">
                         <div class="card mb-4">
                             <form class="card-body row">
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-6">
                                     <label>Date From</label>
                                     <input type="date" class="form-control" v-model="summaryFormData.date_from">
                                 </div>
                                 
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-6">
                                     <label>Date to</label>
                                     <input type="date" class="form-control" v-model="summaryFormData.date_to">
+                                </div>
+                                
+                                <div class="form-group col-md-12">
+                                <label>Report Type</label>
+                                    <select class="form-control" id="area" v-model="summary_type">
+                                        <option value="Site">Site Summary</option> 
+                                        <option value="Sales">Sales Summary</option> 
+                                    </select>
                                 </div>
                                 
                                 <div class="form-group col-md-12 text-center">
@@ -93,8 +132,8 @@ export default {
                             </form>
                         </div>
 
-                        <h3>Overall Site Summary</h3>
-                        <table class="table table-bordered table-hover">
+                        <h3>{{summaryTitle}}</h3>
+                        <table class="table table-bordered table-hover" v-if="!sales">
                             <tbody>
                                 <tr>
                                     <th>Total Customer</th><td>{{summary.customers}}</td>
@@ -113,6 +152,17 @@ export default {
                                 </tr>
                             </tbody>
                         </table>
+                        
+                        <table class="table table-bordered table-hover" v-else>
+                            <tbody>
+                                <tr>
+                                    <th>Sold Tickets</th><td>{{sales.sold_tickets}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total Amount</th><td>{{sales.sold_amount}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     
                 </div>
@@ -126,6 +176,11 @@ export default {
             customers: [],
             areas: [],
             rider_coasters: [],
+            maintenances: [],
+            report_type: 'Purchase',
+            reportTitle: 'Report 1: Ticket Purchase History',
+            summary_type: 'Site',
+            summaryTitle: 'Report 2: Overall Site Summary',
             summary: {
                 customers:'',
                 rides:'',
@@ -133,6 +188,7 @@ export default {
                 employees: '',
                 avg_ticket_price: ''
             },
+            sales: '',
             formData: {
                 date_from:'',
                 date_to:'',
@@ -155,38 +211,20 @@ export default {
     },
     methods: {
         fetchPurchases: function() {
-            let that = this;
             let currentDate = new Date();
-            let datetime = currentDate.getFullYear() +'-'+ (currentDate.getMonth()+1) +'-' + currentDate.getDate();
+            let datetime = currentDate.getFullYear() +'-'+ ('0' + (currentDate.getMonth()+1)).slice(-2) +'-' + currentDate.getDate();
             this.formData.date_from = datetime;
             this.formData.date_to = datetime;
 
             this.searchTicket();
         },
         fetchSummary: function() {
-            let that = this;
-            callApi.overallSiteSummary()
-                .then(function (response) {
-                    let customers = response.data.customers ? response.data.customers : 0;
-                    let rides = response.data.rides ? response.data.rides : 0;
-                    let maintenances = response.data.maintenances ? response.data.maintenances : 0;
-                    let employees = response.data.employees ? response.data.employees : 0;
-                    let avg_ticket_price = response.data.avg_ticket_price ? response.data.avg_ticket_price : 0;
+            let currentDate = new Date();
+            let datetime = currentDate.getFullYear() +'-'+ ('0' + (currentDate.getMonth()+1)).slice(-2) +'-' + currentDate.getDate();
+            this.summaryFormData.date_from = datetime;
+            this.summaryFormData.date_to = datetime;
 
-                    if(response.data.message) {
-                        alert(response.data.message);
-                    }
-                    else{
-                        that.summary.customers = customers;
-                        that.summary.rides = rides;
-                        that.summary.maintenances = maintenances;
-                        that.summary.employees = employees;
-                        that.summary.avg_ticket_price = avg_ticket_price;
-                    }
-                })
-                .catch(function (error) {
-                    console.log(JSON.stringify(error))
-                });
+            this.searchSummary();
         },
         fetchRidesCoaster: function () {
             let that = this;
@@ -235,43 +273,84 @@ export default {
         },
         searchTicket : function () {
             let that = this;
-            callApi.searchPurchased(this.formData)
-                .then(function (response) {
-                    let _data = response.data.tickets ? response.data.tickets : [];
 
-                    if(response.data.message) {
-                        alert(response.data.message);
-                    }
-                    else that.tickets = _data;
-                })
-                .catch(function (error) {
-                    console.log(JSON.stringify(error))
-                });
+            if(this.report_type === "Purchase"){
+                this.reportTitle = "Report 1: Ticket Purchase History";
+                this.maintenances = [];
+
+                callApi.searchPurchased(this.formData)
+                    .then(function (response) {
+                        let _data = response.data.tickets ? response.data.tickets : [];
+
+                        if(response.data.message) {
+                            alert(response.data.message);
+                        }
+                        else that.tickets = _data;
+                    })
+                    .catch(function (error) {
+                        console.log(JSON.stringify(error))
+                    });
+            }else{
+                that.tickets = [];
+                this.reportTitle = "Report 3: Maintenance History"
+                callApi.searchMaintenance(this.formData)
+                    .then(function (response) {
+                        let _data = response.data.maintenances ? response.data.maintenances : [];
+
+                        if(response.data.message) {
+                            alert(response.data.message);
+                        }
+                        else that.maintenances = _data;
+                    })
+                    .catch(function (error) {
+                        console.log(JSON.stringify(error))
+                    });
+            }
+
         },
         searchSummary : function () {
             let that = this;
-            callApi.searchSiteSummary(this.summaryFormData)
-                .then(function (response) {
-                    let customers = response.data.customers ? response.data.customers : 0;
-                    let rides = response.data.rides ? response.data.rides : 0;
-                    let maintenances = response.data.maintenances ? response.data.maintenances : 0;
-                    let employees = response.data.employees ? response.data.employees : 0;
-                    let avg_ticket_price = response.data.avg_ticket_price ? response.data.avg_ticket_price : 0;
+            if (this.summary_type === 'Site'){
+                this.summaryTitle = 'Report 2: Overall Site Summary';
+                this.sales = '';
+                callApi.searchSiteSummary(this.summaryFormData)
+                    .then(function (response) {
+                        let customers = response.data.customers ? response.data.customers : 0;
+                        let rides = response.data.rides ? response.data.rides : 0;
+                        let maintenances = response.data.maintenances ? response.data.maintenances : 0;
+                        let employees = response.data.employees ? response.data.employees : 0;
+                        let avg_ticket_price = response.data.avg_ticket_price ? response.data.avg_ticket_price : 0;
 
-                    if(response.data.message) {
-                        alert(response.data.message);
-                    }
-                    else{
-                        that.summary.customers = customers;
-                        that.summary.rides = rides;
-                        that.summary.maintenances = maintenances;
-                        that.summary.employees = employees;
-                        that.summary.avg_ticket_price = avg_ticket_price;
-                    }
-                })
-                .catch(function (error) {
-                    console.log(JSON.stringify(error))
-                });
+                        if(response.data.message) {
+                            alert(response.data.message);
+                        }
+                        else{
+                            that.summary.customers = customers;
+                            that.summary.rides = rides;
+                            that.summary.maintenances = maintenances;
+                            that.summary.employees = employees;
+                            that.summary.avg_ticket_price = avg_ticket_price;
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(JSON.stringify(error))
+                    });
+            }else{
+                this.summaryTitle = "Report 4: Sales Summary";
+                callApi.searchSales(this.summaryFormData)
+                    .then(function (response) {
+                        let _data = response.data.sales ? response.data.sales : [];
+
+                        if(response.data.message) {
+                            alert(response.data.message);
+                        }
+                        else that.sales = _data[0];
+                    })
+                    .catch(function (error) {
+                        console.log(JSON.stringify(error))
+                    });
+            }
+
         }
     }
 }

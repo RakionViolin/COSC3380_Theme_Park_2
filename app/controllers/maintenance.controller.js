@@ -12,8 +12,9 @@ module.exports = {
             Date_Started: req.body.Date_Started,
             Date_Completed: req.body.Date_Completed,
             Rides_coaster_ID: req.body.Rides_Coaster_ID,
-            ridesCoasterRideCoasterID : req.body.Rides_Coaster_ID
-        };console.log(data);
+            ridesCoasterRideCoasterID : req.body.Rides_Coaster_ID,
+            userUserId: req.user.user_id,
+        };
 
         Maintenance.create(data).then(_data => {
             res.status(200).send({
@@ -52,6 +53,7 @@ module.exports = {
     },
     UpdateMaintenance: (req, res) => {
         let id = req.params.id;
+        let user_id = req.user.user_id;
 
         Maintenance.findOne({
             where: {
@@ -63,7 +65,8 @@ module.exports = {
                     Date_Started: req.body.Date_Started,
                     Date_Completed: req.body.Date_Completed,
                     Rides_Coaster_ID: req.body.Rides_coaster_ID,
-                    ridesCoasterRideCoasterID : req.body.Rides_coaster_ID
+                    ridesCoasterRideCoasterID : req.body.Rides_coaster_ID,
+                    userUserId: user_id,
                 }, {
                     where: {
                         Maintenance_ID: id

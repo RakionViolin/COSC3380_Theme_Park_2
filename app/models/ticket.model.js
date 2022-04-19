@@ -9,6 +9,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.DATE,
             allowNull: false
         },
+        Number_of_Passenger: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
         Price: {
             type: Sequelize.INTEGER,
             allowNull: false

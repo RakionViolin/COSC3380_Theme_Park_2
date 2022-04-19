@@ -42,4 +42,7 @@ db.maintenance.belongsTo(db.rides_coaster, {foreignKey: 'Rides_coaster_ID', targ
 db.rides_coaster.hasMany(db.maintenance, { as: 'CoasterInMaintenance', onDelete: 'CASCADE' });
 
 
+db.maintenance.belongsTo(db.users, {foreignKey: 'Worker_ID', targetKey: 'user_id', as: 'worker', onDelete: 'CASCADE'})
+db.users.hasMany(db.maintenance, { as: 'WorkerInMaintenance', onDelete: 'CASCADE' });
+
 module.exports = db;

@@ -20,8 +20,8 @@ export default {
                             <tbody>
                                 <tr v-for="maintenance in maintenances" :key="maintenance.Maintenance_ID">
                                     <td>{{maintenance.coaster.Name}}</td>
-                                    <td>{{new Date(maintenance.Date_Started)}}</td>
-                                    <td>{{new Date(maintenance.Date_Completed)}}</td>
+                                    <td>{{(new Date(maintenance.Date_Started)).toDateString()}}</td>
+                                    <td>{{(new Date(maintenance.Date_Completed)).toDateString()}}</td>
                                     <td>
                                         <button class="btn btn-outline-primary" @click="EditMaintenance(maintenance)">Edit</button>
                                         <button class="btn btn-outline-danger" @click="DeleteMaintenance(maintenance.Maintenance_ID)">Delete</button>
