@@ -27,6 +27,9 @@ export default {
             <ul class="navbar-nav ml-auto">
                 <template v-if="isAdmin">
                     <li class="nav-item active">
+                        <a class="nav-link page" href="#/dashboard">Reports</a>
+                    </li>
+                    <li class="nav-item active">
                         <a class="nav-link page" href="#/manage-user">Manage User</a>
                     </li>
                     <li class="nav-item active">

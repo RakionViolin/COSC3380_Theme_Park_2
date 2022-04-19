@@ -156,18 +156,12 @@ export default {
     methods: {
         fetchPurchases: function() {
             let that = this;
-            callApi.allPurchased()
-                .then(function (response) {
-                    let _data = response.data.tickets ? response.data.tickets : [];
+            let currentDate = new Date();
+            let datetime = currentDate.getFullYear() +'-'+ (currentDate.getMonth()+1) +'-' + currentDate.getDate();
+            this.formData.date_from = datetime;
+            this.formData.date_to = datetime;
 
-                    if(response.data.message) {
-                        alert(response.data.message);
-                    }
-                    else that.tickets = _data;
-                })
-                .catch(function (error) {
-                    console.log(JSON.stringify(error))
-                });
+            this.searchTicket();
         },
         fetchSummary: function() {
             let that = this;

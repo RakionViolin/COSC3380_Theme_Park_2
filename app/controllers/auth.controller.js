@@ -38,12 +38,12 @@ exports.register = (req, res) => {
                 const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
                 let data = {
-                    full_name,
-                    dob,
-                    contact,
+                    full_name:full_name,
+                    dob:dob,
+                    contact:contact,
                     email_address: email,
                     password: hashedPassword,
-                    user_type
+                    user_type:user_type
                 };
 
                 User.create(data)

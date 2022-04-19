@@ -29,15 +29,15 @@ const routes = [
         meta: {
             requiresAuth: true
         }},
-    { path: '/manage-user', name:'Home', component: ManageUser ,
+    { path: '/manage-user', name:'ManageUser', component: ManageUser ,
         meta: {
             requiresAuth: true
         }},
-    { path: '/manage-area', name:'Home', component: ManageArea ,
+    { path: '/manage-area', name:'ManageArea', component: ManageArea ,
         meta: {
             requiresAuth: true
         }},
-    { path: '/manage-raider', name:'Home', component: ManageRider ,
+    { path: '/manage-raider', name:'ManageRider', component: ManageRider ,
         meta: {
             requiresAuth: true
         }},
