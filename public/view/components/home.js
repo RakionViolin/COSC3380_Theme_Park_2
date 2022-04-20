@@ -6,7 +6,7 @@ export default {
             <div class="content">
                 <h1>Thrills n' Chills <br><span>Theme park</span> <br></h1>
                 <p class="par"> The experience of a lifetime is closer than you think! Thrills n' Chills theme park will immerse you<br>  
-                with fun times, exciting activites, and unforgettable memories.<br> Are you ready to expeirence some Thrills n' Chills?</p>
+                with fun times, exciting activites, and unforgettable memories.<br> Are you ready to experience some Thrills n' Chills?</p>
 
                <button class="cn"><a href="about-us.html">LEARN MORE</a></button>
             </div>
