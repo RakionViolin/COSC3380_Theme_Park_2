@@ -1,6 +1,6 @@
 # Thrills n' chills Theme Park System
 
-    * The experience of a lifetime is closer than you think! Thrills n' Chills theme park will immerse you with fun times, exciting activities, and unforgettable memories. Are you ready to experience some Thrills n' Chills?
+The experience of a lifetime is closer than you think! Thrills n' Chills theme park will immerse you with fun times, exciting activities, and unforgettable memories. Are you ready to experience some Thrills n' Chills?
 
 #### Table of contents
 
