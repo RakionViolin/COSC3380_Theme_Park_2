@@ -58,17 +58,25 @@ const { Prohairesis} = require('prohairesis')
 
 // connection detail
 
-//var connection;
-//function connectDb() {
+// var connection;
+// function connectDb() {
 //   connection = mysql.createConnection({
-//        host: 'us-cdbr-east-05.cleardb.net',
-//        user: 'bfd83253f0d499',
-//        password: '1f65e11b',
-//        database: 'heroku_c329452859c091c'
-//    });
-//  connection.on('error', connectDb()); // probably worth adding timeout / throttle / etc
-//}
+//     host: 'us-cdbr-east-05.cleardb.net',
+//     user: 'b052c9e9d7c49d',
+//     password: '64931555',
+//     database: 'heroku_0fab399232beb7b',
+//   });
+//  //connection.on('error', connectDb()); // probably worth adding timeout / throttle / etc
+// }
 
+// connection.connect(function (error){
+//   if (error) {
+//     console.log("Error connecting to Database.")
+//     setTimeout(connectDb, 2000);
+//   }
+// })
+
+// connectDb();
 
 const mySQLstring = "mysql://b052c9e9d7c49d:64931555@us-cdbr-east-05.cleardb.net/heroku_0fab399232beb7b?reconnect=true"
 const database = new Prohairesis(mySQLstring);
