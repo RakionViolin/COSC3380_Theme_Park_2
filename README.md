@@ -22,7 +22,7 @@ To manage information about a specific theme park and collect data to provide re
 ## Usage Information
 * Produced by students at UH Computer Science Dept. Course 3380 Databases
     
-## Contributor Guidlines
+## Contributor Guidelines
 * N/A
     
 ## Test Instructions
