@@ -10,18 +10,22 @@ export default {
                         <h3>Purchase history</h3>
                         <table class="table table-bordered table-striped table-hover">
                             <thead class="thead-dark">
-                                <tr>
+                                <tr class="text-center">
+                                    <th>#</th>
                                     <th>Ride Coaster ID</th>
-                                    <th>Admission Date</th>
+                                    <th>Date</th>
+                                    <th>No of Tickets</th>
                                     <th>Price</th>
                                 </tr>
                             </thead>
                             
                             <tbody>
-                                <tr v-for="ticket in tickets" :key="ticket.Ticket_ID">
+                                <tr v-for="(ticket, index) in tickets" :key="index">
+                                    <td class="text-center">{{index+1}}</td>
                                     <td>{{ticket.tickets.Name}}</td>
-                                    <td>{{(new Date(ticket.admission_date)).toDateString()}}</td>
-                                    <td>&#36; {{ticket.Price}}</td>
+                                    <td class="text-center">{{appDateFormat(ticket.admission_date)}}</td>
+                                    <td class="text-center">{{ticket.Number_of_Passenger}}</td>
+                                    <td class="text-center">&#36; {{ticket.Price}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -41,7 +45,7 @@ export default {
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label for="admission_date">Admission Date</label>
+                                    <label for="admission_date">Date</label>
                                     <input type="date" class="form-control" id="admission_date" v-model="formData.admission_date">
                                 </div>
                                 
@@ -84,6 +88,12 @@ export default {
     },
 
     methods: {
+        appDateFormat: function(date){
+            let _date = new Date(date);
+            let new_date = ('0' + (_date.getDate()+1)).slice(-2)+'/'+('0' + (_date.getMonth()+1)).slice(-2)+'/'+_date.getFullYear();
+            console.log(new_date);
+            return new_date;
+        },
         getPrice: function(e){
             let rc = this.rider_coasters.findIndex(row => row.Ride_coaster_ID == e.target.value);
             console.log(rc);

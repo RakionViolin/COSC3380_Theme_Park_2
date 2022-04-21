@@ -84,6 +84,9 @@ export default  {
     getCustomers: () => {
         return axiosWithToken(token).get("/api/v0/user/customers");
     },
+    getWorkers: () => {
+        return axiosWithToken(token).get("/api/v0/user/workers");
+    },
     getUsers: () => {
         return axiosWithToken(token).get("/api/v0/user/");
     },

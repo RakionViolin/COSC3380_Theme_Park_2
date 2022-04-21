@@ -10,6 +10,7 @@ export default {
                         <table class="table table-bordered table-striped table-hover">
                             <thead class="thead-dark">
                                 <tr>
+                                    <th>#</th>
                                     <th>Ride Coaster Id</th>
                                     <th>Started Date</th>
                                     <th>Completed Date</th>
@@ -18,10 +19,11 @@ export default {
                             </thead>
                             
                             <tbody>
-                                <tr v-for="maintenance in maintenances" :key="maintenance.Maintenance_ID">
+                                <tr v-for="(maintenance, index) in maintenances" :key="index">
+                                    <td>{{index+1}}</td>
                                     <td>{{maintenance.coaster.Name}}</td>
-                                    <td>{{(new Date(maintenance.Date_Started)).toDateString()}}</td>
-                                    <td>{{(new Date(maintenance.Date_Completed)).toDateString()}}</td>
+                                    <td>{{appDateFormat(maintenance.Date_Started)}}</td>
+                                    <td>{{appDateFormat(maintenance.Date_Started)}}</td>
                                     <td>
                                         <button class="btn btn-outline-primary" @click="EditMaintenance(maintenance)">Edit</button>
                                         <button class="btn btn-outline-danger" @click="DeleteMaintenance(maintenance.Maintenance_ID)">Delete</button>
@@ -87,6 +89,18 @@ export default {
         this.fetchRidesCoaster();
     },
     methods: {
+        appDateFormat: function(date){
+            let _date = new Date(date);
+            let new_date = ('0' + (_date.getDate()+1)).slice(-2)+'/'+('0' + (_date.getMonth()+1)).slice(-2)+'/'+_date.getFullYear();
+            console.log(new_date);
+            return new_date;
+        },
+        dbDateFormat: function(date){
+            let _date = new Date(date);
+            let new_date = _date.getFullYear()+'-'+('0' + (_date.getMonth()+1)).slice(-2)+'-'+('0' + (_date.getDate()+1)).slice(-2);
+            console.log(new_date);
+            return new_date;
+        },
         AddMaintenance: function(){
             let that = this;
             callApi.addMaintenance(this.formData)
@@ -104,8 +118,11 @@ export default {
                     console.log(JSON.stringify(error))
                 });
         },
-        EditMaintenance: function (row) {
-            this.formData = row;
+        EditMaintenance: function (row) {console.log(row);
+            this.formData.Maintenance_ID = row.Maintenance_ID;
+            this.formData.Date_Started = this.dbDateFormat(row.Date_Started);
+            this.formData.Date_Completed = this.dbDateFormat(row.Date_Completed);
+            this.formData.Rides_Coaster_ID = row.Rides_coaster_ID;
             this.edit_maintenance = true;
             console.log(this.formData);
         },

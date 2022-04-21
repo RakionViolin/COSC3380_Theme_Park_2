@@ -154,7 +154,6 @@ module.exports = {
         });
     },
     getCustomers: (req, res) => {
-        let area_id = req.params.id;
 
         User.findAll({
 			where: {
@@ -172,5 +171,24 @@ module.exports = {
                 message: "Some error occurred while creating the user." + err.message
             })
         });
+    },
+    getWorkers: (req, res) => {
+
+        User.findAll({
+            where: {
+                user_type: "Employee"
+            },
+        }).then(async(_data) => {
+            res.status(200).send({
+                status: 200,
+                users: _data
+            })
+        })
+            .catch(err => {
+                res.status(200).send({
+                    status: 500,
+                    message: "Some error occurred while creating the user." + err.message
+                })
+            });
     },
 };

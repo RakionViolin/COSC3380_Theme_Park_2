@@ -45,8 +45,6 @@ module.exports = {
 
             if(_data){
                 if(no_of_tickets > 4){
-                    no_of_tickets = no_of_tickets +1;
-
                     let data = {
                         Rides_coaster_ID: req.body.rides_coaster,
                         customer_ID: req.user.user_id,
@@ -57,27 +55,23 @@ module.exports = {
                         userUserId : req.user.user_id
                     };
 
-                    Ticket.create(data);
-                }
-
-                let rides = {
-                    Date_: req.body.admission_date,
-                    Number_of_Passenger: no_of_tickets,
-                    Ride_coaster_ID:req.body.rides_coaster,
-                    ridesCoasterRideCoasterID : req.body.rides_coaster,
-                }
-
-                Rides.create(rides).then(__data => {
-                    res.status(200).send({
-                        status: 200,
-                        message: "Ticket purchased done successfully"
+                    Ticket.create(data).then(__data => {
+                        res.status(200).send({
+                            status: 200,
+                            message: "Ticket purchased done successfully"
+                        })
                     })
-                })
                     .catch(err => {
                         res.status(200).send({
                             status: 500,
                             message: "Some error occurred while creating the ticket." + err.message})
                     });
+                }else{
+                    res.status(200).send({
+                        status: 200,
+                        message: "Ticket purchased done successfully"
+                    })
+                }
             }
         })
         .catch(err => {
@@ -93,7 +87,7 @@ module.exports = {
         var datetime = currentdate.getFullYear() +'-'+ (currentdate.getMonth()+1) +'-' + currentdate.getDate();
         let start = datetime+' 00:00:00';
         let end  = datetime+' 23:59:59';
-        console.log(start, end)
+
         Ticket.findAll({
             where: {
                 admission_date: {
@@ -121,119 +115,69 @@ module.exports = {
 	searchPurchased: (req, res) => {
         let whereQuery = {};
         let whereQuery2 = {};
-        
+        let start = '', end = '';
         if(req.body.date_from && req.body.date_from!=''){
             start = req.body.date_from+' 00:00:00';
         }
         if(req.body.date_to && req.body.date_to!=''){
             end = req.body.date_to+' 23:59:59';
         }
-        if(req.body.customer &&  req.body.customer!=''){
-            whereQuery.customer_ID = req.body.customer;
+
+        if(start && end){
+            whereQuery = {
+                admission_date: {
+                    [Op.between] :  [start, end]
+                }
+            }
+        }else if(start && !end){
+            whereQuery = {
+                admission_date: {
+                    [Op.gte] :  start
+                }
+            }
         }
+        else if(!start && end){
+            whereQuery = {
+                admission_date: {
+                    [Op.lte] :  end
+                }
+            }
+        }
+
+        if(req.body.customer &&  req.body.customer!=''){
+            whereQuery.customer_ID = {
+                [Op.eq]: req.body.customer
+            }
+        }
+
         if(req.body.rides_coaster &&  req.body.rides_coaster!=''){
-            whereQuery.Rides_coaster_ID = req.body.rides_coaster;
+            whereQuery.Rides_coaster_ID = {
+                [Op.eq]: req.body.rides_coaster
+            }
         }
         if(req.body.area &&  req.body.area!=''){
             whereQuery2.Area_ID = req.body.area;
         }
 
-        if(req.body.date_from && req.body.date_to &&  req.body.date_from!='' &&  req.body.date_to!=''){
-            Ticket.findAll({
-                where: whereQuery,
-                where: {
-                    admission_date: {
-                        [Op.between] :  [start, end]
-                    }
-                },
-                include: [{
-                    model: RideCoaster, as: 'tickets',
-                    where: whereQuery2,
-                },{
-                    model: User, as: 'Customer',
-                }
-                ],
-            }).then(async (data) => {
-                return res.status(200).send({
-                    status: 200,
-                    tickets: data
-                });
-            }).catch(err => {
-                res.status(200).send({
-                    status: 500,
-                    message: "Some error occurred while creating the user." + err.message})
+        Ticket.findAll({
+            where: whereQuery,
+            include: [{
+                model: RideCoaster, as: 'tickets',
+                where: whereQuery2,
+            },{
+                model: User, as: 'Customer',
+            }
+            ],
+        }).then(async (data) => {
+            return res.status(200).send({
+                status: 200,
+                tickets: data
             });
-        }else if(req.body.date_from &&  req.body.date_from!=''){
-            Ticket.findAll({
-                where: whereQuery,
-                where: {
-                    admission_date: {
-                        [Op.gte]: start
-                    }
-                },
-                include: [{
-                    model: RideCoaster, as: 'tickets',
-                    where: whereQuery2,
-                },{
-                    model: User, as: 'Customer',
-                }
-                ],
-            }).then(async (data) => {
-                return res.status(200).send({
-                    status: 200,
-                    tickets: data
-                });
-            }).catch(err => {
-                res.status(200).send({
-                    status: 500,
-                    message: "Some error occurred while creating the user." + err.message})
-            });
-        }else if(req.body.date_to &&  req.body.date_to!=''){
-            Ticket.findAll({
-                where: whereQuery,
-                where: {
-                    admission_date: {
-                        [Op.lte]: end
-                    }
-                },
-                include: [{
-                    model: RideCoaster, as: 'tickets',
-                    where: whereQuery2,
-                },{
-                    model: User, as: 'Customer',
-                }
-                ],
-            }).then(async (data) => {
-                return res.status(200).send({
-                    status: 200,
-                    tickets: data
-                });
-            }).catch(err => {
-                res.status(200).send({
-                    status: 500,
-                    message: "Some error occurred while creating the user." + err.message})
-            });
-        }else{
-            Ticket.findAll({
-                where: whereQuery,
-                include: [{
-                    model: RideCoaster, as: 'tickets',
-                    where: whereQuery2,
-                },{
-                    model: User, as: 'Customer',
-                }
-                ],
-            }).then(async (data) => {
-                return res.status(200).send({
-                    status: 200,
-                    tickets: data
-                });
-            }).catch(err => {
-                res.status(200).send({
-                    status: 500,
-                    message: "Some error occurred while creating the user." + err.message})
-            });
-        }
+        }).catch(err => {
+            res.status(200).send({
+                status: 500,
+                message: "Some error occurred while creating the user." + err.message})
+        });
 	},
 	
 	siteSummary: (req, res) => {
@@ -249,27 +193,21 @@ module.exports = {
                             user_type: "Employee"
                         },
                     }).then(async(employees) => {
-                        Ticket.findAll().then(async(tickets) => {
-                            let price = 0;
-                            let ticket = 0;
-                            let evg_price = 0;
-                            tickets.forEach((item) => {
-                                ticket++;
-                                price += item.Price;
-                            });
-
-                            if(ticket > 0){
-                                evg_price = (price/ticket).toFixed(2);
-                            }
-
+                        Ticket.findAll({
+                            attributes: [
+                                [Sequelize.fn('sum', Sequelize.col('Price')), 'sold_amount'],
+                                [Sequelize.fn('sum', Sequelize.col('Number_of_Passenger')), 'sold_tickets'],
+                            ]
+                        }).then(async (data) => {
                             return res.status(200).send({
                                 status: 200,
                                 customers: customers,
                                 rides: rides,
                                 maintenances: maintenances,
                                 employees: employees,
-                                avg_ticket_price: evg_price,
+                                sold: data[0]
                             });
+
                         })
                         .catch(err => {
                             res.status(200).send({
@@ -308,8 +246,8 @@ module.exports = {
 	},
 	
 	searchSiteSummary: (req, res) => {
-        const startedDate = req.body.date_from;console.log(startedDate);
-        const endDate = req.body.date_to;console.log(endDate);
+        const startedDate = req.body.date_from;
+        const endDate = req.body.date_to;
 
         const from = new Date(startedDate);
         const to = new Date(endDate);
@@ -347,27 +285,20 @@ module.exports = {
                                 where: {
                                     "admission_date" : {[Op.between] : [from , to ]}
                                 },
-                            }).then(async(tickets) => {
-                                let price = 0;
-                                let ticket = 0;
-                                let evg_price = 0;
-                                tickets.forEach((item) => {
-                                    ticket++;
-                                    price += item.Price;
-                                });
-
-                                if(ticket > 0){
-                                    evg_price = (price/ticket).toFixed(2);
-                                }
-
+                                attributes: [
+                                    [Sequelize.fn('sum', Sequelize.col('Price')), 'sold_amount'],
+                                    [Sequelize.fn('sum', Sequelize.col('Number_of_Passenger')), 'sold_tickets'],
+                                ]
+                            }).then(async (data) => {
                                 return res.status(200).send({
                                     status: 200,
                                     customers: customers,
                                     rides: rides,
                                     maintenances: maintenances,
                                     employees: employees,
-                                    avg_ticket_price: evg_price,
+                                    sold: data[0]
                                 });
+
                             })
                             .catch(err => {
                                 res.status(200).send({
@@ -413,12 +344,48 @@ module.exports = {
         const from = new Date(startedDate);
         const to = new Date(endDate);
 
+        let whereQuery = {};
+
+        if(from && to){
+            whereQuery = {
+                Date_Started: {
+                    [Op.gte] :  from
+                },
+                Date_Completed: {
+                    [Op.lte] :  to
+                }
+            }
+        }else if(from && !to){
+            whereQuery = {
+                Date_Started: {
+                    [Op.gte] :  from
+                }
+            }
+        }
+        else if(!from && to){
+            whereQuery = {
+                Date_Completed: {
+                    [Op.lte] :  to
+                }
+            }
+        }
+
+        if(req.body.rides_coaster &&  req.body.rides_coaster !== ''){
+            whereQuery.Rides_coaster_ID = {
+                [Op.eq]: req.body.rides_coaster
+            }
+        }
+
+        if(req.body.worker &&  req.body.worker !==''){
+            whereQuery.Worker_ID = {
+                [Op.eq]: req.body.worker
+            }
+        }
+
         Maintenance.findAll({
-            where: {
-                "Date_Started": {[Op.between]: [from, to]}
-            },
+            where: whereQuery,
             include: [{
-                model: RideCoaster, as: 'coaster',
+                model: RideCoaster, as: 'coaster'
             },{
                 model: User, as: 'worker',
             }]
