@@ -31,13 +31,21 @@
                     <div class="_25">                        
                         Area's name
                         <br>
-                        <input id="small" type="text" placeholder="Enter an affected area" name="areaName" style='width: 70%' required>                                                                
+                        <select name="areaName" id="areaName">                        
+                            <option>
+                            <option value="Magic Kingdom">Magic Kingdom
+                            <option value="Animal Kingdom">Animal Kingdom
+                            <option value="Resort Area">Resort Area
+                            <option value="Downtown Area">Downtown Area
+                            <option value="Golf Area">Golf Area
+                            </option>
+                        </select>                                                                 
                     </div>
 
                     <div class="_25">                        
                         Area's ID
                         <br>
-                        <input id="small" type="number" placeholder="Enter an ID" name="areaID" style='width: 70%' required>                                                               
+                        <input id="small" type="text" min="0" max="100" placeholder="Enter an ID" name="areaID" style='width: 70%'>                                                               
                     </div>
                     
                     <div class="_25">

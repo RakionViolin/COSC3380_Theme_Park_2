@@ -28,16 +28,18 @@ export default {
                     
                 <div class='bar'>View Report</div>
                 <br>
-                <a href="/ride_frequency">Ride Frequency</a></br></br>
-                <a href="/rainouts">Rainouts</a></br></br>
+                <!-- <a href="/ride_frequency">Search Ride Frequency</a></br></br>
+                <a href="/rainouts">Rainouts</a></br></br> -->
+                <a href="/search_rainouts">Search Rainouts</a></br></br>
+                <a href="/search_maintenance">Search Maintenance</a></br></br>
 
                 
                 <div class='bar'>Add Report</div>
                 <br>
-                <a href="/report_admission">Daily Admission</a></br></br>
-                <a href="/report_ridden_ride">Rides</a></br></br>
-                <a href="/report_maintenance">Maintenance</a></br></br>
-                <a href="/report_rainout">Rainouts </a>
+                <!-- <a href="/report_admission">Daily Admission</a></br></br> -->
+                <a href="/report_ridden_ride"> Add a Ride</a></br></br>
+                <a href="/report_maintenance">Add a Maintenance</a></br></br>
+                <a href="/report_rainout">Add a Rainout </a>
 
                 </div>
 

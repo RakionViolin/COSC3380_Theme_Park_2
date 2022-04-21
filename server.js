@@ -72,10 +72,13 @@ const { Prohairesis} = require('prohairesis')
 //}
 
 
-const mySQLstring = "mysql://bfd83253f0d499:1f65e11b@us-cdbr-east-05.cleardb.net/heroku_c329452859c091c?reconnect=true"
+const mySQLstring = "mysql://b052c9e9d7c49d:64931555@us-cdbr-east-05.cleardb.net/heroku_0fab399232beb7b?reconnect=true"
 const database = new Prohairesis(mySQLstring);
 
 //var homepage = require('./public/routes/index')
+var search_rainouts = require('./public/routes/search_rainouts');
+var search_maintenance = require('./public/routes/search_maintenance');
+
 var ride_freq = require('./public/routes/show_ride_frequency');
 var rainouts = require('./public/routes/show_rainouts');
 var rainout_report = require('./public/routes/report_rainout');
@@ -90,9 +93,13 @@ app.set("views", path.join(__dirname, "public/views"))
 app.set('view engine', 'ejs')
 
 
-//app.use('/', homepage);
+app.use('/search_rainouts', search_rainouts);
+app.use('/search_maintenance', search_maintenance);
+
+
 app.use('/ride_frequency', ride_freq);
 app.use('/rainouts', rainouts);
+
 app.use('/report_rainout', rainout_report);
 app.use('/report_maintenance', maintenance_report);
 app.use('/report_ridden_ride', ridden_ride_report);
@@ -217,7 +224,108 @@ app.post('/ridden_ride', async (req, res) => {
     res.redirect('/success');
 })
 
+app.post('/show_rainouts', (req, res, next) => {
+    const body = req.body;
+    database.query(`
+    SELECT
+        Rainout_ID, Date_, Area_name, rainouts.Area_ID
+    FROM
+        rainouts, areas
+    WHERE
+    rainouts.Area_ID = areas.Area_ID
+    AND (
+        Area_name = @areaName
+        OR 
+        Date_ = @date
+        OR
+        YEAR(Date_) = @year
+        OR (
+            MONTH(Date_) = @month 
+            AND
+            YEAR(Date_) = @year
+        )
+        OR (
+            Area_name = @areaName
+            AND 
+            Date_ = @date
+        )
+        OR (
+            Area_name = @areaName
+            AND 
+            MONTH(Date_) = @month 
+            AND
+            YEAR(Date_) = @year
+        )
+    )
+    `,{
+        areaName: body.areaName,
+        date: body.searchDate.concat(' 00:00:00'),
+        month: body.searchMonth,
+        year: body.searchYear
 
+      })
+    .then((rows) => {
+        res.render('show_rainouts', {rows})
+    })
+    .catch((error) => {
+    console.error('Error querying the database users');
+    });
+});
+
+
+app.post('/show_maintenance', (req, res, next) => {
+    const body = req.body;
+    //console.log(body);
+    database.query(`
+    SELECT
+        Maintenance_ID, Date_Started, Date_Completed, Rides_coaster_ID, rides_coasters.Name
+    FROM
+        maintenances, rides_coasters
+    WHERE
+        maintenances.Rides_coaster_ID = rides_coasters.Ride_coaster_ID
+    AND (
+        Name = @rideName
+        OR 
+        Date_Started = @dateStarted
+        OR
+        Date_completed = @dateCompleted
+        OR
+        YEAR(Date_Started) = @year
+        OR (
+            MONTH(Date_Started) = @month 
+            AND
+            YEAR(Date_Started) = @year
+        )
+        OR (
+            Name = @rideName
+            AND 
+            Date_Started = @dateStarted
+        )
+        OR (
+            Name = @rideName
+            AND 
+            MONTH(Date_Started) = @month 
+            AND
+            YEAR(Date_Started) = @year
+        )
+    )
+    `,{
+        rideName: body.rollerCoasterName,
+        dateStarted: body.startingDate.concat(' 00:00:00'),
+        dateCompleted: body.completionDate.concat(' 00:00:00'),
+
+        month: body.searchMonth,
+        year: body.searchYear
+
+      })
+    .then((rows) => {
+        console.log(rows);
+        res.render('show_maintenance', {rows})
+    })
+    .catch((error) => {
+    console.error('Error querying the database users');
+    });
+});
 
 
 

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="public/stylesheet.css">
+
+    
+</head>
+<body>
+    <div class="container">
+
+        <div class="header">
+            <%- include ('templates/header.ejs') %>
+        </div>
+        <div class="header-r">
+            <%- include ('templates/header_r.ejs') %>
+        </div>
+
+        <div class="navigation" style="border-right: 1px solid #000;">
+            <%- include ('templates/navigation.ejs') %>
+        </div>
+
+        <div class="content">
+            <div style="text-align: left; font-size: 18px; font-weight: bold; margin-left: 10px">SEARCH MAINTENANCE</div>
+            <br><br><br>
+            <div style="text-align: left; font-size: 12px; margin-left: 10px">Search by</div>          
+            <form action="/show_maintenance" method="POST">
+                <div style="font-size: 12px;">
+                    <div class="_30">
+                        By Starting Date                        
+                        <br>
+                        <input type="date" placeholder="YYYY-MM-DD" name="startingDate" style="width: 70%">  
+                        <br><br><br>
+
+                        By Completion Date                        
+                        <br>
+                        <input type="date" placeholder="YYYY-MM-DD" name="completionDate" style="width: 70%">  
+                        <br><br><br>
+                        
+                        By Roller Coaster
+                        <br>
+                        <select name="rollerCoasterName">                        
+                            <option >
+                                <option value="Mountain Rider Coaster">Mountain Rider Coaster
+                                <option value="GhostRider">GhostRider
+                                <option value="Smoky Mountain Coaster">Smoky Mountain Coaster
+                                </option>
+                        </select> 
+                        <br><br><br><br>
+                        <input type="submit" style="left: 0; margin-left: 0;">
+                    </div>
+
+                    <div class="_30">                        
+                        By Month
+                        <br>
+                        <select name="searchMonth">                        
+                            <option >
+                            <option value="01">Januray
+                            <option value="02">Feburuary
+                            <option value="03">March
+                            <option value="04">April
+                            <option value="05">May
+                            <option value="06">June
+                            <option value="07">July
+                            <option value="08">August
+                            <option value="09">September
+                            <option value="10">October
+                            <option value="11">November
+                            <option value="12">December
+                            </option>
+                        </select>                                                            
+                    </div>
+                    
+                    <div class="_30">
+                        By Year
+                        <br>                     
+                        <select name="searchYear">                        
+                            <option >
+                            <option value="2022">2022
+                            <option value="2021">2021
+                            <option value="2020">2020
+                            <option value="2019">2019
+                            <option value="2018">2018
+                            <option value="2017">2017
+                            <option value="2016">2016
+                            <option value="2015">2015
+                            <option value="2014">2014
+                            <option value="2012">2012
+                            </option>
+                        </select>                       
+                    </div>
+                                                            
+                </div>                                  
+            </form>           
+        </div>
+
+        <div class="footer" style="font-size: 12px;">Team 12 - COSC 3080 - Tue/Thu Class</div>
+    </div>
+</body>
+</html>

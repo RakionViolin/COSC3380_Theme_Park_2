@@ -52,7 +52,7 @@ router.get('/', (req, res, next) => {
     
         if(!error) {
             console.log(rows);
-            res.render('../views/show_rainouts', {rows})
+            res.render('../views/search_rainouts', {rows})
         
         }
     })
