@@ -24,21 +24,23 @@
         </div>
 
         <div class="content">
-            <div class="_title">RAINOUT REPORT</div>
+            <div class="_title">MAINTENANCE REPORT</div>
             <table id="table">
                 <thead>
                     <th>ID</th>
-                    <th>Date</th>
-                    <th>Affected Area</th>
-                    <th>Area ID</th>
+                    <th>Roller Coaster's Name</th>
+                    <th>Roller Coaster's ID</th>
+                    <th>Date Started</th>
+                    <th>Date Completed</th>
                 </thead>
                 <tbody>
                     <% for(let i =0;i < rows.length; i++){ %>
                         <tr>
-                            <td><%= rows[i].Rainout_ID %></td>
-                            <td><%= rows[i].Date_ %></td>
-                            <td><%= rows[i].Area_name %></td>
-                            <td><%= rows[i].Area_ID %></td>
+                            <td><%= rows[i].Maintenance_ID %></td>
+                            <td><%= rows[i].Name %></td>
+                            <td><%= rows[i].Rides_coaster_ID %></td>
+                            <td><%= rows[i].Date_Started %></td>
+                            <td><%= rows[i].Date_Completed %></td>
                             </tr>
                     <% } %>                      
                 </tbody>
