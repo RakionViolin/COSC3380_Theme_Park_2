@@ -1,5 +1,5 @@
-/*import callApi from '../services/callApi.js';
-export default {
+import callApi from '../services/callApi.js';
+/*export default {
     template: `
     <div class="row mt-2">
         <div class="col-md-12">
