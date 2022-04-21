@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="public/stylesheet.css">
+   
+</head>
+<body>
+    <div class="container">
+
+        <div class="header">
+            <%- include ('templates/header.ejs') %>
+        </div>
+        <div class="header-r">
+            <%- include ('templates/header_r.ejs') %>
+        </div>
+
+        <div class="navigation" style="border-right: 1px solid #000;">
+            <%- include ('templates/navigation.ejs') %>
+        </div>
+
+        <div class="content">
+            <div class="_75" style="text-align: center; font-size: 18px; font-weight: bold;">RIDE REPORT</div>
+         
+            <form action="/ridden_ride" method="POST">
+                <div style="font-size: 12px;">
+                    <div class="_50">                        
+                        Roller coaster's name 
+                        <br>
+                        <select>                        
+                            <option >
+                                <option value="McDermott-Konopelski">McDermott-Konopelski
+                                <option value="Howe-Anderson">Howe-Anderson
+                                <option value="Prosacco LLC">Prosacco LLC
+                                <option value="Moore and Sons">Moore and Sons
+                                <option value="Halvorson-Hoeger">Halvorson-Hoeger
+                                <option value="DuBuque, Douglas and VonRueden">DuBuque, Douglas and VonRueden
+                                <option value="Becker, Douglas and Pagac">Becker, Douglas and Pagac
+                                <option value="Willms, Kling and Bahringer">Willms, Kling and Bahringer
+                                </option>
+                        </select>
+                        <br><br><br>
+                        On-site staff's full name <br>
+                        <input type="text" placeholder="Enter full name" name="employeeName">                       
+                    </div>
+                    <div class="_25">
+                        Roller coaster's ID 
+                        <br>
+                        <input type="number" placeholder="" name="rideID">
+                        <br><br><br>
+                        On-site staff's ID<br>
+                        <input type="number" placeholder="Enter employee's ID" name="employeeID">
+                        
+                    </div>
+                    
+                    <div class="_25">
+                        
+                        <br><br><br>
+                        <br><br><br>
+                        <br><br><br>
+                        <br>
+                                             
+                    </div>
+                    <div class="_30">
+                        Date<br>                        
+                        <input type="date" placeholder="" name="rideDate" style="width: 70%">                                       
+                    </div>
+                    
+                    <div class="_30">
+                        Time<br>                        
+                        <input type="time" step=1 placeholder="" name="rideTime" style="width: 70%">                       
+                    </div>
+
+                    <div class="_30">
+                        Number of passengers 
+                        <br>
+                        <input type="number" min="0" placeholder="" name="numberOfPassengers" style="width: 30%;">
+                    </div>
+
+                    <!--
+                        <div class="_75">
+                        Comment
+                        <br>
+                        <input id="box" type="text" name="comment"></br></br>
+                    </div>
+                    -->
+                    
+                    <div class="_25">
+                        
+                        <br><br><br>
+                        <br><br><br>
+                        <br><br><br>
+                        <br>                                            
+                    </div>
+                    
+                    <div class="_75">
+                        <input type="submit">
+                    </div>                                        
+                </div>                                  
+            </form>           
+        </div>
+
+        <div class="footer"><%- include ('templates/footer.ejs') %></div>
+    </div>
+</body>
+</html>

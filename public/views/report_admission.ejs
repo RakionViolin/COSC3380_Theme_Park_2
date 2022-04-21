@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="public/stylesheet.css">
+
+    
+</head>
+<body>
+    <div class="container">
+
+        <div class="header">
+            <%- include ('templates/header.ejs') %>
+        </div>
+        <div class="header-r">
+            <%- include ('templates/header_r.ejs') %>
+        </div>
+
+        <div class="navigation" style="border-right: 1px solid #000;">
+            <%- include ('templates/navigation.ejs') %>
+        </div>
+
+        <div class="content">
+            <div class="_100" style="text-align: center; font-size: 18px; font-weight: bold;">DAILY ADMISSION REPORT</div>
+            <br><br><br><br><br>
+            <form action="/admission" method="POST">
+                <div style="font-size: 12px">
+
+                    <div class="_33">
+                        Holiday<br>                        
+                        <input type="text" placeholder="" name="holiday" style="width:220px;"> 
+                        <br><br><br><br><br><br>
+                        Number of daily passes<br>                        
+                        <input type="number" min="0" placeholder="" name="dailyPass" style="width:220px"> 
+                        <br><br><br>
+                        Number of annual passes<br>                        
+                        <input type="number" min="0" placeholder="" name="annualPass" style="width:220px">                                              
+                    </div>
+
+                    <div class="_33">
+                        Total number of admissions<br>                        
+                        <input type="number" min="0" placeholder="" name="admission" style="width:220px;"> 
+                        <br><br><br><br><br><br>
+                        Number of senior passes<br>                        
+                        <input type="number" min="0" placeholder="" name="seniorPass" style="width:220px"> 
+                        <br><br><br>
+                        Number of children passes<br>                        
+                        <input type="number" min="0" placeholder="" name="childrenPass" style="width:220px">                                              
+                    </div>
+
+                    <div class="_33">
+                        Date<br>                        
+                        <input type="date" placeholder="YYYY-MM-DD" name="admissionDate"  style="width:220px;" >
+                        <br><br><br><br><br><br>
+                        Number of online purchases<br>                        
+                        <input type="number" min="0" placeholder="" name="onlineSold" style="width:220px"> 
+                        <br><br><br>
+                        Number of on-site purchases<br>                        
+                        <input type="number" min="0" placeholder="" name="onsiteSold" style="width:220px">                                              
+                    </div>
+                    
+                    
+                    <div class="_100">
+                        <input type="submit">
+                    </div>                                        
+                </div>
+                                  
+            </form>           
+        </div>
+
+        <div class="footer" style="font-size: 12px;">Team 12 - COSC 3080 - Tue/Thu Class</div>
+    </div>
+</body>
+</html>

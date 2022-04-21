@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="public/stylesheet.css">
+
+    
+</head>
+<body>
+    <div class="container">
+
+        <div class="header">
+            <%- include ('templates/header.ejs') %>
+        </div>
+        <div class="header-r">
+            <%- include ('templates/header_r.ejs') %>
+        </div>
+
+        <div class="navigation" style="border-right: 1px solid #000;">
+            <%- include ('templates/navigation.ejs') %>
+        </div>
+
+        <div class="content">
+            <div style="text-align: left; font-size: 18px; font-weight: bold; margin-left: 10px">REPORT A RAINOUT</div>
+         
+            <form action="/rainout" method="POST">
+                <div style="font-size: 12px;">
+                    <div class="_25">                        
+                        Area's name
+                        <br>
+                        <input id="small" type="text" placeholder="Enter an affected area" name="areaName" style='width: 70%' required>                                                                
+                    </div>
+
+                    <div class="_25">                        
+                        Area's ID
+                        <br>
+                        <input id="small" type="number" placeholder="Enter an ID" name="areaID" style='width: 70%' required>                                                               
+                    </div>
+                    
+                    <div class="_25">
+                        Date
+                        <br>                     
+                        <input id="small" type="date" placeholder="YYYY-MM-DD" name="rainoutDate" style='width: 70%' required>
+                        
+                    </div>
+                    <div class="_25">
+                        <br>
+                        <button type="submit" name="rainoutBtn">Submit</button>
+                    </div>
+                                                            
+                </div>                                  
+            </form>           
+        </div>
+
+        <div class="footer" style="font-size: 12px;">Team 12 - COSC 3080 - Tue/Thu Class</div>
+    </div>
+</body>
+</html>

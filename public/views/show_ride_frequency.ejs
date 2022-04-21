@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel='stylesheet' href='/public/stylesheet.css' />
+
+   
+</head>
+<body>
+    <div class="container">
+
+        <div class="header">
+            <%- include ('templates/header.ejs') %>
+        </div>
+        <div class="header-r">
+            <%- include ('templates/header_r.ejs') %>
+        </div>
+
+        <div class="navigation" style="border-right: 1px solid #000;">
+            <%- include ('templates/navigation.ejs') %>
+        </div>
+
+        <div class="content">
+            <div class="_title">RIDE FREQUENCY REPORT</div>
+            <table id="table">
+                <thead>
+                    <th>Ride_ID</th>
+                    <th>Roller_coaster_ID</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Number of Passengers</th>
+                </thead>
+                <tbody>
+                    <% for(let i =0;i < rows.length; i++){ %>
+                        <tr>
+                            <td><%= rows[i].Ride_ID %></td>
+                            <td><%= rows[i].roller_coaster_ID %></td>
+                            <td><%= rows[i].Date_ %></td>
+                            <td><%= rows[i].Time_ %></td>
+                            <td><%= rows[i].Number_of_Passenger %></td>
+                            </tr>
+                    <% } %>                      
+                </tbody>
+            </table>       
+        </div>
+
+        <div class="footer">© Team 12 - COSC 3080 - Tue/Thu Class</div>
+    </div>
+</body>
+</html>
