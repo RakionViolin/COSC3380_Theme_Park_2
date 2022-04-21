@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="public/stylesheet.css">
+   
+</head>
+<body>
+    <div class="container">
+
+        <div class="header">
+            <%- include ('templates/header.ejs') %>
+        </div>
+        <div class="header-r">
+            <%- include ('templates/header_r.ejs') %>
+        </div>
+
+        <div class="navigation" style="border-right: 1px solid #000;">
+            <%- include ('templates/navigation.ejs') %>
+        </div>
+
+        <div class="content">
+            <img src="public/img/map.jpeg" alt="Roller Coaster" class='image'>            
+        </div>
+
+        <div class="footer"><%- include ('templates/footer.ejs') %></div>
+    </div>
+</body>
+</html>

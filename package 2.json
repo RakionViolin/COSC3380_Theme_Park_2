@@ -1,0 +1,27 @@
+{
+  
+    "name": "layout",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "start": "node app.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "body-parser": "^1.20.0",
+      "dotenv": "^16.0.0",
+      "ejs": "^3.0.2",
+      "express": "^4.17.3",
+      "express-ejs-layouts": "^2.5.1",
+      "module-exports": "^1.0.0",
+      "morgan": "^1.10.0",
+      "mysql": "^2.18.1",
+      "path": "^0.12.7",
+      "prohairesis": "^1.2.5"
+    }
+  }
+  
+}

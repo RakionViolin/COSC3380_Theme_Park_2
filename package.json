@@ -1,0 +1,42 @@
+{
+  "name": "theme-park",
+  "version": "1.0.0",
+  "description": "Theme park tracking",
+  "main": "server.js",
+  "scripts": {
+    "test": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "MySQL",
+    "ExpressJs",
+    "NodeJs",
+    "HTML",
+    "CSS"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "email-validator": "^2.0.4",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.18.0",
+
+    "ejs": "^3.0.2",
+    "express-ejs-layouts": "^2.5.1",
+    "module-exports": "^1.0.0",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
+    "path": "^0.12.7",
+    "prohairesis": "^1.2.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+  
+}

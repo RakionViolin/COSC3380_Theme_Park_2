@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="public/stylesheet.css">
+
+</head>
+<body>
+    <div class="container">
+
+        <div class="header">
+            <%- include ('templates/header.ejs') %>
+        </div>
+        <div class="header-r">
+            <%- include ('templates/header_r.ejs') %>
+        </div>
+
+        <div class="navigation" style="border-right: 1px solid #000;">
+            <%- include ('templates/navigation.ejs') %>
+        </div>
+
+        <div class="content">
+            <div class="_75" style="text-align: center; font-size: 18px; font-weight: bold;">ADD A NEW MAINTENANCE</div>
+         
+            <form action="/maintenance" method="POST">
+                <div style="font-size: 12px;">
+                    <div class="_50">                        
+                        Roller coaster's name 
+                        <br>
+                        <select>                        
+                            <option >
+                            <option value="McDermott-Konopelski">McDermott-Konopelski
+                            <option value="Howe-Anderson">Howe-Anderson
+                            <option value="Prosacco LLC">Prosacco LLC
+                            <option value="Moore and Sons">Moore and Sons
+                            <option value="Halvorson-Hoeger">Halvorson-Hoeger
+                            <option value="DuBuque, Douglas and VonRueden">DuBuque, Douglas and VonRueden
+                            <option value="Becker, Douglas and Pagac">Becker, Douglas and Pagac
+                            <option value="Willms, Kling and Bahringer">Willms, Kling and Bahringer
+                            </option>
+                        </select>
+                        <br><br><br>
+                        Employee's full name <br>
+                        <input type="text" placeholder="Enter last name" name="fullName">                       
+                    </div>
+                    <div class="_25">
+                        Roler coaster's ID 
+                        <br>
+                        <input type="number" placeholder="00000000" name="rollerCoaster_ID">
+                        <br><br><br>
+                        Employee's ID<br>
+                        <input type="number" placeholder="00000000" name="employee_ID">
+                        
+                    </div>
+                    
+                    <div class="_25">
+                        
+                        <br><br><br>
+                        <br><br><br>
+                        <br><br><br>
+                        <br>
+                                             
+                    </div>
+                    <div class="_30">
+                        Starting date<br>                        
+                        <input type="date" placeholder="YYYY-MM-DD" name="startingDate" style="width: 70%">                                       
+                    </div>
+                    
+                    <div class="_30">
+                        Completion date<br>                        
+                        <input type="date" placeholder="YYYY-MM-DD" name="completionDate" style="width: 70%">                       
+                    </div>
+
+                    <!-- <div class="_30" style="width: 125px;">
+                        Status 
+                        <br>
+                        <select> 
+                            <option >                       
+                            <option value="On-going">On-going
+                            <option value="Completed">Completed
+                            </option>
+                        </select>                      
+                    </div>
+                -->
+
+                    <div class="_25">
+                        
+                        <br><br><br>
+                        <br><br><br>
+                        <br><br><br>
+                        <br>
+                                             
+                    </div>
+                    
+                    <div class="_75">
+                        <input type="submit">
+                    </div>                                        
+                </div>
+                                  
+            </form>           
+        </div>
+
+        <div class="footer" style="font-size: 12px;">Team 12 - COSC 3080 - Tue/Thu Class</div>
+    </div>
+</body>
+</html>
