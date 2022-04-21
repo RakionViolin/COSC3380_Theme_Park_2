@@ -58,6 +58,16 @@ const { Prohairesis} = require('prohairesis')
 
 // connection detail
 
+//created a pool to help prevent the server closing of the database, but still crashing so not a viable fix yet
+// const pool = mysql.createPool({
+//   host: 'us-cdbr-east-05.cleardb.net',
+//   user: 'b052c9e9d7c49d',
+//   password: '64931555',
+//   database: 'heroku_0fab399232beb7b'
+// });
+
+// pool.query((err, rows) => { });
+
 // var connection;
 // function connectDb() {
 //   connection = mysql.createConnection({
